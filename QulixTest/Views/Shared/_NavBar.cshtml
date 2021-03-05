@@ -1,0 +1,13 @@
+﻿<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div id="navbarMenu" class="collapse navbar-collapse">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a href="@Url.Content("~/")" class="nav-link @(ViewContext.RouteData.Values["controller"].ToString().ToLower() == "home" ? "active" : "")">Главная</a></li>
+            <li class="nav-item"><a href="@Url.Content("~/companies/index")" class="nav-item nav-link @(ViewContext.RouteData.Values["controller"].ToString().ToLower() == "companies" ? "active" : "")">Компании</a></li>
+            <li class="nav-item"><a href="@Url.Content("~/employees/index")" class="nav-item nav-link @(ViewContext.RouteData.Values["controller"].ToString().ToLower() == "employees" ? "active" : "")">Работники</a></li>
+        </ul>
+    </div>
+</nav>

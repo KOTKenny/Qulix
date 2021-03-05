@@ -1,0 +1,194 @@
+﻿@using QulixTest.DAL.Models.ViewModels
+@model QulixTest.DAL.Models.SearchModels.EmployeeToSearch
+
+@{
+    ViewBag.Title = "Список работников";
+}
+
+<div class="page my-3">
+    <div class="container-fluid">
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="card text-white bg-primary">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 col-md-6 mb-3 mb-md-0 d-flex align-items-center">
+                                <div class="h1">Список работника</div>
+                            </div>
+                            <div class="col-12 col-md-6 d-flex flex-column align-items-md-end">
+                                <div>
+                                    <a href="@Url.Action("Create")" class="btn btn-light">Создать работника</a>
+                                    <a href="javascript:void(0)" class="btn btn-light"><i class="fas fa-book-open"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        @using (Html.BeginForm("Index", "Employees", FormMethod.Get))
+                        {
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Id)
+                                        @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control" } })
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.SecondName)
+                                        @Html.EditorFor(model => model.SecondName, new { htmlAttributes = new { @class = "form-control" } })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.CompanyId)
+                                        @Html.DropDownListFor(model => model.CompanyId, (IEnumerable<SelectListItem>)ViewBag.Companies, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.TypeId)
+                                        @Html.DropDownListFor(model => model.TypeId, (IEnumerable<SelectListItem>)ViewBag.EmployeesTypes, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <button type="submit" class="btn btn-primary mr-2">Искать</button>
+                                @*<button class="btn btn-danger mr-2"><i class="fas fa-times"></i></button>*@
+                                <span class="tag text-white bg-primary d-flex align-items-center">Найдено: @ViewBag.Count</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row d-none d-lg-flex mb-3">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <table class="table orders-table">
+                            <thead>
+                                <tr>
+                                    <th>@Html.ActionLink("ID", "Index", new { Sorting_Order = "Id" })</th>
+                                    <th>@Html.ActionLink("Фамилия", "Index", new { Sorting_Order = "SecondName" })</th>
+                                    <th>Имя</th>
+                                    <th>Отчество</th>
+                                    <th>@Html.ActionLink("Дата приёма на работу", "Index", new { Sorting_Order = "CreateDate" })</th>
+                                    <th>Должность</th>
+                                    <th>Компания</th>
+                                    <th>Редактировать</th>
+                                    <th>Удалить</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (EmployeeToView item in ViewBag.Employees)
+                                {
+                                    <tr>
+                                        <td><a href="#">@item.Id</a></td>
+                                        <td>@item.SecondName</td>
+                                        <td>@item.FirstName</td>
+                                        <td>@item.ThirdName</td>
+                                        <td>@item.CreateDate</td>
+                                        <td>@item.EmployeeTypeName</td>
+                                        <td>@item.EmployeeCompanyName</td>
+                                        <td>@Html.ActionLink("Редактировать", "Edit", new { id = item.Id })</td>
+                                        <td>@Html.ActionLink("Удалить", "Delete", new { id = item.Id })</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        @if (ViewBag.Employees.Count == 0)
+                        {
+                            <div style="width: 100%; text-align: center; padding: 15px; color: red">Ни одного работника не найдено...</div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @foreach (EmployeeToView item in ViewBag.Employees)
+        {<div class="row d-lg-none mb-3">
+                <div class="col-12">
+                    <div class="card item">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6 col-md-6 d-flex align-items-center">
+                                    <div class="custom-control custom-checkbox">
+                                        <label><b>ID</b> - @Html.ActionLink(item.Id.ToString(), "Edit", new { id = item.Id })</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-6 d-flex justify-content-end align-items-center">
+                                    <a href="javascript:void(0)" class="btn btn-outline-primary details-trigger d-none d-md-block">Детали</a>
+                                </div>
+                            </div>
+
+                            <div class="details d-md-none">
+                                <hr>
+
+                                <div class="d-flex justify-content-between">
+                                    <span class="font-weight-medium">Фамилия</span>
+                                    <span class="text-right">@item.SecondName</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="font-weight-medium">Имя</span>
+                                    <span class="text-right">@item.FirstName</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="font-weight-medium">Отчество</span>
+                                    <span class="text-right">@item.ThirdName</span>
+                                </div>
+
+                                <hr>
+
+                                <div class="d-flex justify-content-between">
+                                    <span class="font-weight-medium">Дата приёма на работу</span>
+                                    <span class="text-right">@item.CreateDate</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="font-weight-medium">Должность</span>
+                                    <span class="text-right">@item.EmployeeTypeName</span>
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <span class="font-weight-medium">Компания</span>
+                                    <span class="text-right">@item.EmployeeCompanyName</span>
+                                </div>
+
+                                <hr>
+
+                                <div class="row justify-content-center mt-2">
+                                    <div class="col-6">
+                                        @Html.ActionLink("Удалить", "Delete", new { id = item.Id }, new { @class = "btn btn-danger w-100" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (ViewBag.Employees.Count == 0)
+        {
+            <div class="row d-lg-none mb-3">
+                <div class="col-12">
+                    <div class="card item">
+                        <div class="card-body">
+                            <div style="width: 100%; text-align: center; padding: 15px; color: red">Ни одного работника не найдено...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

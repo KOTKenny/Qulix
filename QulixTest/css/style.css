@@ -1,0 +1,27 @@
+.tag {
+    padding: 2px 8px;
+    border-radius: .25rem;
+    font-weight: 500;
+}
+
+.navbar-toggler {
+    color: white !important;
+    border-color: white !important;
+}
+
+/* Info */
+
+.info div.item-content {
+    line-height: 2;
+}
+
+.info .item-content span.title {
+    font-weight: bold;
+}
+
+.info .item-content .content {
+    float: right;
+}
+
+
+/* END Info */
