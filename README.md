@@ -5,7 +5,7 @@
 Запускаем решение.<br>
 
 В Web.config настраиваем connectionString, меняем на свой.<br>
-Можно также добавить свой connectionString, а в классе DAL/DataManager поменять свойству название поля connectionString<br>
+Можно также добавить свой connectionString, а в классе DAL/Repositories/DataManager поменять его название (свойство ConnectionString)<br>
 
 Настройка завершена, можно запускать проект.
 
@@ -41,4 +41,4 @@ KOTKenny
 
 [VK](https://vk.com/kotkenny)
 
-Время написания: 18 часов
+Время написания: 19 часов
