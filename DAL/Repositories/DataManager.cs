@@ -1,5 +1,5 @@
-﻿using QulixTest.DAL.Attributes;
-using QulixTest.DAL.Interfaces;
+﻿using DAL.Attributes;
+using DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 
-namespace QulixTest.DAL
+namespace DAL.Repositories
 {
     public class DataManager : IDataManager
     {
@@ -107,7 +107,7 @@ namespace QulixTest.DAL
             this.QueryWithoutReturnData(null, sql);
         }
 
-        public DataSet GetAllData<T>(T entity, string orderBy, string direction, string whereField)
+        public DataSet GetDataByCondition<T>(T entity, string orderBy, string direction, string whereField)
         {
             orderBy = orderBy ?? "Id";
             direction = direction ?? "Desc";
@@ -130,7 +130,7 @@ namespace QulixTest.DAL
             return QueryWithReturnData(sql);
         }
 
-        public DataSet GetAllDataWithWhere<T>(T entity, string orderBy, string direction, Dictionary<string, string> whereFields)
+        public DataSet GetDataByConditionWithMultiplyWhere<T>(T entity, string orderBy, string direction, Dictionary<string, string> whereFields)
         {
             orderBy = orderBy ?? "Id";
             direction = direction ?? "Desc";

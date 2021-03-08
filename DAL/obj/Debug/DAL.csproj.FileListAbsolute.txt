@@ -1,0 +1,6 @@
+C:\Users\Lenovo\Desktop\Job\Web\ASP.NET MVC\QulixTest\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
+C:\Users\Lenovo\Desktop\Job\Web\ASP.NET MVC\QulixTest\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo\Desktop\Job\Web\ASP.NET MVC\QulixTest\DAL\bin\Debug\DAL.dll
+C:\Users\Lenovo\Desktop\Job\Web\ASP.NET MVC\QulixTest\DAL\bin\Debug\DAL.pdb
+C:\Users\Lenovo\Desktop\Job\Web\ASP.NET MVC\QulixTest\DAL\obj\Debug\DAL.dll
+C:\Users\Lenovo\Desktop\Job\Web\ASP.NET MVC\QulixTest\DAL\obj\Debug\DAL.pdb

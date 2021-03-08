@@ -123,28 +123,9 @@
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="DAL\Attributes\DataGetAttribute.cs" />
-    <Compile Include="DAL\Attributes\DataSetAttribute.cs" />
-    <Compile Include="DAL\Interfaces\IDataManager.cs" />
-    <Compile Include="DAL\DataManager.cs" />
-    <Compile Include="DAL\Interfaces\IEntity.cs" />
-    <Compile Include="DAL\LogErrors.cs" />
-    <Compile Include="DAL\Models\Company.cs" />
-    <Compile Include="DAL\Models\CompanyType.cs" />
-    <Compile Include="DAL\Models\Employee.cs" />
-    <Compile Include="DAL\Models\EmployeeType.cs" />
-    <Compile Include="DAL\Models\SearchModels\CompanyToSearch.cs" />
-    <Compile Include="DAL\Models\SearchModels\EmployeeToSearch.cs" />
-    <Compile Include="DAL\Models\ViewModels\CompanyToView.cs" />
-    <Compile Include="DAL\Models\ViewModels\EmployeeToView.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\EmployeeHelper.cs" />
-    <Compile Include="Helpers\CompanyHelper.cs" />
-    <Compile Include="Helpers\Converters.cs" />
-    <Compile Include="Helpers\Mapper.cs" />
-    <Compile Include="Helpers\StatisticHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -192,6 +173,16 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL.csproj">
+      <Project>{033e519a-2f61-4e17-a45e-4581fd310a6c}</Project>
+      <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{f065a025-6d00-4b87-8207-138afd273d99}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

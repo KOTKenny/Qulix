@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QulixTest.DAL.Interfaces
+namespace DAL.Interfaces
 {
     public interface IDataManager
     {
@@ -21,8 +21,8 @@ namespace QulixTest.DAL.Interfaces
         void UpdateData<T>(T entity) where T : new();
 
         //Методы получения данных
-        DataSet GetAllData<T>(T entity, string orderBy, string direction, string whereField);
-        DataSet GetAllDataWithWhere<T>(T entity, string orderBy, string direction, Dictionary<string, string> whereFields);
+        DataSet GetDataByCondition<T>(T entity, string orderBy, string direction, string whereField);
+        DataSet GetDataByConditionWithMultiplyWhere<T>(T entity, string orderBy, string direction, Dictionary<string, string> whereFields);
         dynamic GetDataBy<T>(T obj, string fieldName, string secondFieldName);
     }
 }

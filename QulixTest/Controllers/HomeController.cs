@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BLL.Interfaces;
+using BLL.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,23 +10,25 @@ namespace QulixTest.Controllers
 {
     public class HomeController : Controller
     {
+        private static ICompanyService _companyService;
+        private static IEmployeeService _employeeService;
+
+        public HomeController()
+        {
+            _companyService = new CompanyService();
+            _employeeService = new EmployeeService();
+        }
+
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.BiggestCompany = _companyService.GetNameOfBiggestCompany();
+            ViewBag.CountOfCompanies = _companyService.GetCountOfCompanies();
+            ViewBag.CountOfEmployees = _employeeService.GetCountOfEmployees();
+            ViewBag.CountOfTesters = _employeeService.GetCountOfTesters();
+            ViewBag.CountOfDevelopers = _employeeService.GetCountOfDevelopers();
 
             return View();
         }
+
     }
 }

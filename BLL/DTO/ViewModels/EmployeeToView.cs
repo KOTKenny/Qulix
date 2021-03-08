@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace QulixTest.DAL.Models.ViewModels
+namespace BLL.DTO.ViewModels
 {
     public class EmployeeToView
     {

@@ -1,8 +1,8 @@
-﻿using QulixTest.DAL;
-using QulixTest.DAL.Models;
-using QulixTest.DAL.Models.SearchModels;
-using QulixTest.DAL.Models.ViewModels;
-using QulixTest.Helpers;
+﻿using BLL.DTO.CreateModels;
+using BLL.DTO.EditModels;
+using BLL.DTO.SearchModels;
+using BLL.Interfaces;
+using BLL.Services;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,50 +16,26 @@ namespace QulixTest.Controllers
     public class EmployeesController : Controller
     {
 
-        public static string OrderBy { get; set; } = "Id";
+        private static IEmployeeService _employeeService;
+        private static ICompanyService _companyService;
 
-        public static string Direction { get; set; } = "ASC";
+        public EmployeesController()
+        {
+            _employeeService = new EmployeeService();
+            _companyService = new CompanyService();
+        }
 
         // GET: Companies
         public ActionResult Index(EmployeeToSearch search, string Sorting_Order)
         {
-            Dictionary<string, string> Filter = new Dictionary<string, string>();
 
-            if (Sorting_Order == OrderBy)
-                Direction = Direction != "ASC" ? "ASC" : "DESC";
-            else
-            {
-                OrderBy = Sorting_Order;
-                Direction = "ASC";
-            }
-
-            foreach (var property in search.GetType().GetProperties())
-            {
-                var value = property.GetValue(search);
-                if (value != null)
-                    Filter.Add(property.Name, value.ToString());
-            }
-
-            var employee = new Employee();
-            var ListOfEmployees = Converters.ConvertDataTable<Employee>(employee.GetAllItemsWhere(OrderBy, Direction, Filter).Tables[0]);
-
-            var ListOfEmployeesToView = Mapper.MapCollection<EmployeeToView, Employee>(ListOfEmployees, new Dictionary<string, KeyValuePair<string, Delegate>>() {
-                    { "EmployeeTypeName", new KeyValuePair<string, Delegate>("TypeId", new Func<Employee, string, string>(EmployeeHelper.GetEmployeeTypeName)) },
-                    { "EmployeeCompanyName",  new KeyValuePair<string, Delegate>("CompanyId", new Func<Employee, string, string>(EmployeeHelper.GetEmployeeCompanyName)) }
-                }).ToList();
-
+            var ListOfEmployeesToView = _employeeService.GetEmployees(search, Sorting_Order);
             ViewBag.Employees = ListOfEmployeesToView;
 
-            var employeeType = new EmployeeType();
-            var ListOfTypes = Converters.ConvertDataTable<EmployeeType>(employeeType.GetAllItems().Tables[0]);
-            var ListOfEmployeesTypes = new SelectList(ListOfTypes, "Id", "Name").ToList();
-            ListOfEmployeesTypes.Insert(0, new SelectListItem { Text = "Все" });
+            var ListOfEmployeesTypes = EmployeeTypeService.GetEmployeeTypes();
             ViewBag.EmployeesTypes = ListOfEmployeesTypes;
 
-            var company = new Company();
-            var ListOfCompanies = Converters.ConvertDataTable<Company>(company.GetAllItems().Tables[0]);
-            var ListOfCompaniesToView = new SelectList(ListOfCompanies, "Id", "Name").ToList();
-            ListOfCompaniesToView.Insert(0, new SelectListItem { Text = "Все" });
+            var ListOfCompaniesToView = _companyService.GetCompaniesToDDL();
             ViewBag.Companies = ListOfCompaniesToView;
 
             ViewBag.Count = ListOfEmployeesToView.Count();
@@ -76,14 +52,10 @@ namespace QulixTest.Controllers
 
         public ActionResult Create()
         {
-            var employeeType = new EmployeeType();
-            var ListOfTypes = Converters.ConvertDataTable<EmployeeType>(employeeType.GetAllItems().Tables[0]);
-            var ListOfEmployeesTypes = new SelectList(ListOfTypes, "Id", "Name");
+            var ListOfEmployeesTypes = EmployeeTypeService.GetEmployeeTypes();
             ViewBag.EmployeesTypes = ListOfEmployeesTypes;
 
-            var company = new Company();
-            var ListOfCompanies = Converters.ConvertDataTable<Company>(company.GetAllItems().Tables[0]);
-            var ListOfCompaniesToView = new SelectList(ListOfCompanies, "Id", "Name");
+            var ListOfCompaniesToView = _companyService.GetCompaniesToDDL();
             ViewBag.Companies = ListOfCompaniesToView;
 
             return View();
@@ -91,22 +63,18 @@ namespace QulixTest.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FirstName, SecondName, ThirdName, TypeId, CompanyId")] Employee employee)
+        public ActionResult Create([Bind(Include = "FirstName, SecondName, ThirdName, TypeId, CompanyId")] EmployeeToCreate employee)
         {
             if (ModelState.IsValid)
             {
-                employee.Create();
+                _employeeService.CreateEmployee(employee);
                 return RedirectToAction("Index");
             }
 
-            var employeeType = new EmployeeType();
-            var ListOfTypes = Converters.ConvertDataTable<EmployeeType>(employeeType.GetAllItems().Tables[0]);
-            var ListOfEmployeesTypes = new SelectList(ListOfTypes, "Id", "Name");
+            var ListOfEmployeesTypes = EmployeeTypeService.GetEmployeeTypes();
             ViewBag.EmployeesTypes = ListOfEmployeesTypes;
 
-            var company = new Company();
-            var ListOfCompanies = Converters.ConvertDataTable<Company>(company.GetAllItems().Tables[0]);
-            var ListOfCompaniesToView = new SelectList(ListOfCompanies, "Id", "Name");
+            var ListOfCompaniesToView = _companyService.GetCompaniesToDDL();
             ViewBag.Companies = ListOfCompaniesToView;
 
             return View(employee);
@@ -119,22 +87,17 @@ namespace QulixTest.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var employee = new Employee() { Id = Convert.ToInt32(id) };
-            employee.GetById();
+            var employee = _employeeService.GetEmployeeById(id);
 
-            if (employee == null)
+            if (employee.Id == 0)
             {
                 return HttpNotFound();
             }
 
-            var employeeType = new EmployeeType();
-            var ListOfTypes = Converters.ConvertDataTable<EmployeeType>(employeeType.GetAllItems().Tables[0]);
-            var ListOfEmployeesTypes = new SelectList(ListOfTypes, "Id", "Name");
+            var ListOfEmployeesTypes = EmployeeTypeService.GetEmployeeTypes();
             ViewBag.EmployeesTypes = ListOfEmployeesTypes;
 
-            var company = new Company();
-            var ListOfCompanies = Converters.ConvertDataTable<Company>(company.GetAllItems().Tables[0]);
-            var ListOfCompaniesToView = new SelectList(ListOfCompanies, "Id", "Name");
+            var ListOfCompaniesToView = _companyService.GetCompaniesToDDL();
             ViewBag.Companies = ListOfCompaniesToView;
 
             return View(employee);
@@ -142,22 +105,18 @@ namespace QulixTest.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id, FirstName, SecondName, ThirdName, TypeId, CompanyId")] Employee employee)
+        public ActionResult Edit([Bind(Include = "Id, FirstName, SecondName, ThirdName, TypeId, CompanyId")] EmployeeToEdit employee)
         {
             if (ModelState.IsValid)
             {
-                employee.Update();
+                _employeeService.UpdateEmployee(employee);
                 return RedirectToAction("Index");
             }
 
-            var employeeType = new EmployeeType();
-            var ListOfTypes = Converters.ConvertDataTable<EmployeeType>(employeeType.GetAllItems().Tables[0]);
-            var ListOfEmployeesTypes = new SelectList(ListOfTypes, "Id", "Name");
+            var ListOfEmployeesTypes = EmployeeTypeService.GetEmployeeTypes();
             ViewBag.EmployeesTypes = ListOfEmployeesTypes;
 
-            var company = new Company();
-            var ListOfCompanies = Converters.ConvertDataTable<Company>(company.GetAllItems().Tables[0]);
-            var ListOfCompaniesToView = new SelectList(ListOfCompanies, "Id", "Name");
+            var ListOfCompaniesToView = _companyService.GetCompaniesToDDL();
             ViewBag.Companies = ListOfCompaniesToView;
 
             return View(employee);
@@ -170,22 +129,17 @@ namespace QulixTest.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var employee = new Employee() { Id = Convert.ToInt32(id) };
-            employee.GetById();
+            var employee = _employeeService.GetEmployeeById(id);
 
-            if (employee == null)
+            if (employee.Id == 0)
             {
                 return HttpNotFound();
             }
 
-            var employeeType = new EmployeeType();
-            var ListOfTypes = Converters.ConvertDataTable<EmployeeType>(employeeType.GetAllItems().Tables[0]);
-            var ListOfEmployeesTypes = new SelectList(ListOfTypes, "Id", "Name");
+            var ListOfEmployeesTypes = EmployeeTypeService.GetEmployeeTypes();
             ViewBag.EmployeesTypes = ListOfEmployeesTypes;
 
-            var company = new Company();
-            var ListOfCompanies = Converters.ConvertDataTable<Company>(company.GetAllItems().Tables[0]);
-            var ListOfCompaniesToView = new SelectList(ListOfCompanies, "Id", "Name");
+            var ListOfCompaniesToView = _companyService.GetCompaniesToDDL();
             ViewBag.Companies = ListOfCompaniesToView;
 
             return View(employee);
@@ -195,8 +149,7 @@ namespace QulixTest.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var employee = new Employee();
-            employee.Delete(id);
+            _employeeService.DeleteEmployee(id);
             return RedirectToAction("Index");
         }
     }

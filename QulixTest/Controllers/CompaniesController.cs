@@ -1,7 +1,8 @@
-﻿using QulixTest.DAL.Models;
-using QulixTest.DAL.Models.SearchModels;
-using QulixTest.DAL.Models.ViewModels;
-using QulixTest.Helpers;
+﻿using BLL.DTO.CreateModels;
+using BLL.DTO.EditModels;
+using BLL.DTO.SearchModels;
+using BLL.Interfaces;
+using BLL.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,47 +13,19 @@ namespace QulixTest.Controllers
 {
     public class CompaniesController : Controller
     {
+        private static ICompanyService _companyService;
 
-        public static string OrderBy { get; set; } = "Id";
-
-        public static string Direction { get; set; } = "ASC";
+        public CompaniesController()
+        {
+            _companyService = new CompanyService();
+        }
 
         // GET: Companies
         public ActionResult Index(CompanyToSearch search, string Sorting_Order)
         {
-            Dictionary<string, string> Filter = new Dictionary<string, string>();
+            var ListOfCompaniesToView = _companyService.GetCompanies(search, Sorting_Order);
 
-            // TO DO: ClearFilter
-
-            if (Sorting_Order == OrderBy)
-                Direction = Direction != "ASC" ? "ASC" : "DESC";
-            else
-            {
-                OrderBy = Sorting_Order;
-                Direction = "ASC";
-            }
-
-            foreach (var property in search.GetType().GetProperties())
-            {
-                var value = property.GetValue(search);
-                if (value != null)
-                    Filter.Add(property.Name, value.ToString());
-            }
-
-            var company = new Company();
-            var ListOfCompanies = Converters.ConvertDataTable<Company>(company.GetAllItemsWhere(OrderBy, Direction, Filter).Tables[0]);
-
-            var companyType = new CompanyType();
-            var ListOfTypes = Converters.ConvertDataTable<CompanyType>(companyType.GetAllItems("Id", "ASC", null).Tables[0]);
-            var ListOfCompaniesTypes = new SelectList(ListOfTypes, "Id", "Name")
-                .ToList();
-            ListOfCompaniesTypes.Insert(0, new SelectListItem { Text = "Все" });
-
-
-            var ListOfCompaniesToView = Mapper.MapCollection<CompanyToView, Company>(ListOfCompanies, new Dictionary<string, KeyValuePair<string, Delegate>> () {
-                    { "CompanyTypeName", new KeyValuePair<string, Delegate>("TypeId", new Func<Company, string, string>(CompanyHelper.GetCompanyTypeName)) },
-                    { "CountOfWorkers",  new KeyValuePair<string, Delegate>("Id", new Func<Company, string, int>(CompanyHelper.GetWorkersCount)) }
-                }).ToList();
+            var ListOfCompaniesTypes = CompanyTypeService.GetCompanyTypes();
 
             ViewBag.CompaniesTypes = ListOfCompaniesTypes;
             ViewBag.Companies = ListOfCompaniesToView;
@@ -61,18 +34,9 @@ namespace QulixTest.Controllers
             return View(search);
         }
 
-        // GET: Companies/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-
         public ActionResult Create()
         {
-            var companyType = new CompanyType();
-            var ListOfTypes = Converters.ConvertDataTable<CompanyType>(companyType.GetAllItems().Tables[0]);
-            var ListOfCompaniesTypes = new SelectList(ListOfTypes, "Id", "Name");
+            var ListOfCompaniesTypes = CompanyTypeService.GetCompanyTypes();
             ViewBag.CompaniesTypes = ListOfCompaniesTypes;
 
             return View();
@@ -80,17 +44,15 @@ namespace QulixTest.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name, TypeId")] Company company)
+        public ActionResult Create([Bind(Include = "Name, TypeId")] CompanyToCreate company)
         {
             if (ModelState.IsValid)
             {
-                company.Create();
+                _companyService.CreateCompany(company);
                 return RedirectToAction("Index");
             }
 
-            var companyType = new CompanyType();
-            var ListOfTypes = Converters.ConvertDataTable<CompanyType>(companyType.GetAllItems().Tables[0]);
-            var ListOfCompaniesTypes = new SelectList(ListOfTypes, "Id", "Name");
+            var ListOfCompaniesTypes = CompanyTypeService.GetCompanyTypes();
 
             ViewBag.CompaniesTypes = ListOfCompaniesTypes;
 
@@ -104,17 +66,14 @@ namespace QulixTest.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var company = new Company() { Id = Convert.ToInt32(id) };
-            company.GetById();
+            var company = _companyService.GetCompanyById(id);
 
-            if (company == null)
+            if (company.Id == 0)
             {
                 return HttpNotFound();
             }
 
-            var companyType = new CompanyType();
-            var ListOfTypes = Converters.ConvertDataTable<CompanyType>(companyType.GetAllItems().Tables[0]);
-            var ListOfCompaniesTypes = new SelectList(ListOfTypes, "Id", "Name", company.TypeId);
+            var ListOfCompaniesTypes = CompanyTypeService.GetCompanyTypes();
             ViewBag.CompaniesTypes = ListOfCompaniesTypes;
 
             return View(company);
@@ -122,17 +81,15 @@ namespace QulixTest.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id, Name, TypeId")] Company company)
+        public ActionResult Edit([Bind(Include = "Id, Name, TypeId")] CompanyToEdit company)
         {
             if (ModelState.IsValid)
             {
-                company.Update();
+                _companyService.UpdateCompany(company);
                 return RedirectToAction("Index");
             }
 
-            var companyType = new CompanyType();
-            var ListOfTypes = Converters.ConvertDataTable<CompanyType>(companyType.GetAllItems().Tables[0]);
-            var ListOfCompaniesTypes = new SelectList(ListOfTypes, "Id", "Name", company.TypeId);
+            var ListOfCompaniesTypes = CompanyTypeService.GetCompanyTypes();
             ViewBag.CompaniesTypes = ListOfCompaniesTypes;
 
             return View(company);
@@ -145,17 +102,14 @@ namespace QulixTest.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var company = new Company() { Id = Convert.ToInt32(id) };
-            company.GetById();
+            var company = _companyService.GetCompanyById(id);
 
-            if (company == null)
+            if (company.Id == 0)
             {
                 return HttpNotFound();
             }
 
-            var companyType = new CompanyType();
-            var ListOfTypes = Converters.ConvertDataTable<CompanyType>(companyType.GetAllItems().Tables[0]);
-            var ListOfCompaniesTypes = new SelectList(ListOfTypes, "Id", "Name", company.TypeId);
+            var ListOfCompaniesTypes = CompanyTypeService.GetCompanyTypes();
             ViewBag.CompaniesTypes = ListOfCompaniesTypes;
 
             return View(company);
@@ -165,8 +119,7 @@ namespace QulixTest.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var company = new Company();
-            company.Delete(id);
+            _companyService.DeleteCompany(id);
             return RedirectToAction("Index");
         }
     }

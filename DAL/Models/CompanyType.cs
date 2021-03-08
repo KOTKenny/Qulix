@@ -1,12 +1,13 @@
-﻿using QulixTest.DAL.Attributes;
-using QulixTest.DAL.Interfaces;
+﻿using DAL.Attributes;
+using DAL.Interfaces;
+using DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
 
-namespace QulixTest.DAL.Models
+namespace DAL.Models
 {
     public class CompanyType : IEntity
     {
@@ -40,7 +41,7 @@ namespace QulixTest.DAL.Models
 
         public DataSet GetAllItems()
         {
-            return DM.GetAllData(this, null, null, null);
+            return DM.GetDataByCondition(this, null, null, null);
         }
 
         public dynamic GetById()
@@ -55,7 +56,7 @@ namespace QulixTest.DAL.Models
 
         public DataSet GetAllItems(string orderBy, string direction, string whereField)
         {
-            return DM.GetAllData(this, orderBy, direction, whereField);
+            return DM.GetDataByCondition(this, orderBy, direction, whereField);
         }
     }
 }

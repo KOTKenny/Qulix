@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 
-namespace QulixTest.Helpers
+namespace BLL.Extensions
 {
     public class Converters
     {

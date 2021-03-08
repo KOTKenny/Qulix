@@ -1,20 +1,23 @@
-﻿using QulixTest.DAL.Models;
+﻿using DAL.Interfaces;
+using DAL.Models;
+using DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace QulixTest.Helpers
+namespace BLL.Helpers
 {
     public class CompanyHelper
     {
+        private static IRepositoryManager _repositoryManager = new RepositoryManager(new DataManager());
+
         public static int GetWorkersCount(int companyId)
         {
             var employee = new Employee() { CompanyId = companyId };
 
-            var ds = employee.GetAllItems(null, null, "CompanyId");
-
-            return ds.Tables[0].Rows.Count;
+            return _repositoryManager.Employee.GetEmployeesByConditionWithSingleWhere(employee, null, null, "CompanyId")
+                .Tables[0].Rows.Count;
         }
 
         public static string GetCompanyTypeName(int typeId)
@@ -32,9 +35,8 @@ namespace QulixTest.Helpers
 
             var employee = new Employee() { CompanyId = Convert.ToInt32(companyId) };
 
-            var ds = employee.GetAllItems(null, null, "CompanyId");
-
-            return ds.Tables[0].Rows.Count;
+            return _repositoryManager.Employee.GetEmployeesByConditionWithSingleWhere(employee, null, null, "CompanyId")
+                .Tables[0].Rows.Count;
         }
 
         public static string GetCompanyTypeName(Company obj, string properyName)

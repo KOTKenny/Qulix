@@ -1,4 +1,4 @@
-﻿@using QulixTest.Helpers;
+﻿@using BLL.Helpers;
 
 @{
     ViewBag.Title = "Главная";
@@ -27,8 +27,8 @@
 
                             <hr>
 
-                            <div class="item-content"><span class="title">Самая большая компания</span><span class="content">@StatisticHelper.GetNameOfBiggestCompany()</span></div>
-                            <div class="item-content"><span class="title">Кол-во компаний</span><span class="content">@StatisticHelper.GetCountOfCompanies()</span></div>
+                            <div class="item-content"><span class="title">Самая большая компания</span><span class="content">@ViewBag.BiggestCompany</span></div>
+                            <div class="item-content"><span class="title">Кол-во компаний</span><span class="content">@ViewBag.CountOfCompanies</span></div>
                         </div>
                     </div>
                 </div>
@@ -39,9 +39,9 @@
 
                             <hr>
 
-                            <div class="item-content"><span class="title">Кол-во работников</span><span class="content">@StatisticHelper.GetCountOfEmployees()</span></div>
-                            <div class="item-content"><span class="title">Кол-во тестировщиков</span><span class="content">@StatisticHelper.GetCountOfTesters()</span></div>
-                            <div class="item-content"><span class="title">Кол-во разработчиков</span><span class="content">@StatisticHelper.GetCountOfDevelopers()</span></div>
+                            <div class="item-content"><span class="title">Кол-во работников</span><span class="content">@ViewBag.CountOfEmployees</span></div>
+                            <div class="item-content"><span class="title">Кол-во тестировщиков</span><span class="content">@ViewBag.CountOfTesters</span></div>
+                            <div class="item-content"><span class="title">Кол-во разработчиков</span><span class="content">@ViewBag.CountOfDevelopers</span></div>
                         </div>
                     </div>
                 </div>

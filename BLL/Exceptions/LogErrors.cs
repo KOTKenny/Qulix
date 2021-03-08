@@ -1,10 +1,11 @@
-﻿using System;
+﻿using DAL.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web;
 
-namespace QulixTest.DAL
+namespace BLL.Exceptions
 {
     public class LogErrors
     {

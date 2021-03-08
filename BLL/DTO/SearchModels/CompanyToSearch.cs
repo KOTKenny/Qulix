@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace QulixTest.DAL.Models.SearchModels
+namespace BLL.DTO.SearchModels
 {
     public class CompanyToSearch
     {

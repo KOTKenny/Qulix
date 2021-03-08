@@ -81,3 +81,7 @@ C:\Users\Lenovo\Desktop\Job\Web\ASP.NET MVC\QulixTest\QulixTest\obj\Debug\QulixT
 C:\Users\Lenovo\Desktop\Job\Web\ASP.NET MVC\QulixTest\QulixTest\obj\Debug\QulixTest.csproj.CopyComplete
 C:\Users\Lenovo\Desktop\Job\Web\ASP.NET MVC\QulixTest\QulixTest\obj\Debug\QulixTest.dll
 C:\Users\Lenovo\Desktop\Job\Web\ASP.NET MVC\QulixTest\QulixTest\obj\Debug\QulixTest.pdb
+C:\Users\Lenovo\Desktop\Job\Web\ASP.NET MVC\QulixTest\QulixTest\bin\BLL.dll
+C:\Users\Lenovo\Desktop\Job\Web\ASP.NET MVC\QulixTest\QulixTest\bin\DAL.dll
+C:\Users\Lenovo\Desktop\Job\Web\ASP.NET MVC\QulixTest\QulixTest\bin\BLL.pdb
+C:\Users\Lenovo\Desktop\Job\Web\ASP.NET MVC\QulixTest\QulixTest\bin\DAL.pdb
