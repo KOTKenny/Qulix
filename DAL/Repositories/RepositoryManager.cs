@@ -12,6 +12,8 @@ namespace DAL.Repositories
         private DataManager _dataManager;
         private ICompanyRepository _companyRepository;
         private IEmployeeRepository _employeeRepository;
+        private ICompanyTypeRepository _companyTypeRepository;
+        private IEmployeeTypeRepository _employeeTypeRepository;
         public RepositoryManager(DataManager dataManager)
         {
             _dataManager = dataManager;
@@ -36,6 +38,28 @@ namespace DAL.Repositories
                     _employeeRepository = new EmployeeRepository(_dataManager);
 
                 return _employeeRepository;
+            }
+        }
+
+        public ICompanyTypeRepository CompanyType
+        {
+            get
+            {
+                if (_companyTypeRepository == null)
+                    _companyTypeRepository = new CompanyTypeRepository(_dataManager);
+
+                return _companyTypeRepository;
+            }
+        }
+
+        public IEmployeeTypeRepository EmployeeType
+        {
+            get
+            {
+                if (_employeeTypeRepository == null)
+                    _employeeTypeRepository = new EmployeeTypeRepository(_dataManager);
+
+                return _employeeTypeRepository;
             }
         }
     }

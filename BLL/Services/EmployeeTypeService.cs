@@ -1,5 +1,7 @@
 ﻿using BLL.Extensions;
+using DAL.Interfaces;
 using DAL.Models;
+using DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +13,12 @@ namespace BLL.Services
 {
     public class EmployeeTypeService
     {
+        private static IRepositoryManager _repositoryManager = new RepositoryManager(new DataManager());
+
         public static List<SelectListItem> GetEmployeeTypes()
         {
             var employeeType = new EmployeeType();
-            var ListOfTypes = Converters.ConvertDataTable<EmployeeType>(employeeType.GetAllItems().Tables[0]);
+            var ListOfTypes = Converters.ConvertDataTable<EmployeeType>(_repositoryManager.EmployeeType.GetAllEmployeeTypes(employeeType).Tables[0]);
             var ListOfEmployeesTypes = new SelectList(ListOfTypes, "Id", "Name").ToList();
 
             return ListOfEmployeesTypes;

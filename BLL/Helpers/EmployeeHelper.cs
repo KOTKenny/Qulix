@@ -41,7 +41,7 @@ namespace BLL.Helpers
         {
             var employeeType = new EmployeeType() { Id = typeId };
 
-            employeeType.GetById();
+            _repositoryManager.EmployeeType.GetEmployeeTypeById(employeeType);
 
             return employeeType.Name;
         }
@@ -52,7 +52,7 @@ namespace BLL.Helpers
 
             var employeeType = new EmployeeType() { Id = Convert.ToInt32(typeId) };
 
-            employeeType.GetById();
+            _repositoryManager.EmployeeType.GetEmployeeTypeById(employeeType);
 
             return employeeType.Name;
         }

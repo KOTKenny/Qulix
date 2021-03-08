@@ -9,7 +9,8 @@ namespace DAL.Interfaces
     public interface IRepositoryManager
     {
         ICompanyRepository Company { get; }
-
         IEmployeeRepository Employee { get; }
+        ICompanyTypeRepository CompanyType { get; }
+        IEmployeeTypeRepository EmployeeType { get; }
     }
 }

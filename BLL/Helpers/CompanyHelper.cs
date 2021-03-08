@@ -24,7 +24,7 @@ namespace BLL.Helpers
         {
             var companyType = new CompanyType() { Id = typeId };
 
-            companyType.GetById();
+            _repositoryManager.CompanyType.GetCompanyTypeById(companyType);
 
             return companyType.Name;
         }
@@ -45,7 +45,7 @@ namespace BLL.Helpers
 
             var companyType = new CompanyType() { Id = Convert.ToInt32(typeId) };
 
-            companyType.GetById();
+            _repositoryManager.CompanyType.GetCompanyTypeById(companyType);
 
             return companyType.Name;
         }
