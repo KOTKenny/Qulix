@@ -13,12 +13,16 @@ namespace DAL.Repositories
     public class DataManager : IDataManager
     {
 
-        public string ConnectionString
+        public string ConnectionString { get; set; }
+
+        public DataManager()
         {
-            get
-            {
-                return ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            }
+            ConnectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        }
+
+        public DataManager(string connectionString)
+        {
+            ConnectionString = connectionString;
         }
 
         #region General Methods
