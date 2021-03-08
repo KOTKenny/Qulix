@@ -17,6 +17,13 @@ namespace BLL.Services
             var ListOfTypes = Converters.ConvertDataTable<CompanyType>(companyType.GetAllItems("Id", "ASC", null).Tables[0]);
             var ListOfCompaniesTypes = new SelectList(ListOfTypes, "Id", "Name")
                 .ToList();
+
+            return ListOfCompaniesTypes;
+        }
+
+        public static List<SelectListItem> GetCompanyTypesToSortDDL()
+        {
+            var ListOfCompaniesTypes = GetCompanyTypes();
             ListOfCompaniesTypes.Insert(0, new SelectListItem { Text = "Все" });
 
             return ListOfCompaniesTypes;

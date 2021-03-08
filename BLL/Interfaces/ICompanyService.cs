@@ -18,6 +18,7 @@ namespace BLL.Interfaces
         CompanyToEdit GetCompanyById(int? id);
         void DeleteCompany(int? id);
         void UpdateCompany(CompanyToEdit companyDto);
+        List<SelectListItem> GetCompaniesToSortDDL();
         List<SelectListItem> GetCompaniesToDDL();
         int GetCountOfCompanies();
         string GetNameOfBiggestCompany();

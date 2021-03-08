@@ -25,7 +25,7 @@ namespace QulixTest.Controllers
         {
             var ListOfCompaniesToView = _companyService.GetCompanies(search, Sorting_Order);
 
-            var ListOfCompaniesTypes = CompanyTypeService.GetCompanyTypes();
+            var ListOfCompaniesTypes = CompanyTypeService.GetCompanyTypesToSortDDL();
 
             ViewBag.CompaniesTypes = ListOfCompaniesTypes;
             ViewBag.Companies = ListOfCompaniesToView;

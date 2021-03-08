@@ -32,10 +32,10 @@ namespace QulixTest.Controllers
             var ListOfEmployeesToView = _employeeService.GetEmployees(search, Sorting_Order);
             ViewBag.Employees = ListOfEmployeesToView;
 
-            var ListOfEmployeesTypes = EmployeeTypeService.GetEmployeeTypes();
+            var ListOfEmployeesTypes = EmployeeTypeService.GetEmployeeTypesToSortDDL();
             ViewBag.EmployeesTypes = ListOfEmployeesTypes;
 
-            var ListOfCompaniesToView = _companyService.GetCompaniesToDDL();
+            var ListOfCompaniesToView = _companyService.GetCompaniesToSortDDL();
             ViewBag.Companies = ListOfCompaniesToView;
 
             ViewBag.Count = ListOfEmployeesToView.Count();

@@ -16,6 +16,13 @@ namespace BLL.Services
             var employeeType = new EmployeeType();
             var ListOfTypes = Converters.ConvertDataTable<EmployeeType>(employeeType.GetAllItems().Tables[0]);
             var ListOfEmployeesTypes = new SelectList(ListOfTypes, "Id", "Name").ToList();
+
+            return ListOfEmployeesTypes;
+        }
+
+        public static List<SelectListItem> GetEmployeeTypesToSortDDL()
+        {
+            var ListOfEmployeesTypes = GetEmployeeTypes();
             ListOfEmployeesTypes.Insert(0, new SelectListItem { Text = "Все" });
 
             return ListOfEmployeesTypes;

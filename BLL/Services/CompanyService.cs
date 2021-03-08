@@ -93,12 +93,19 @@ namespace BLL.Services
             _repositoryManager.Company.UpdateCompany(company);
         }
 
+        public List<SelectListItem> GetCompaniesToSortDDL()
+        {
+            var ListOfCompaniesToView = GetCompaniesToDDL();
+            ListOfCompaniesToView.Insert(0, new SelectListItem { Text = "Все" });
+
+            return ListOfCompaniesToView;
+        }
+
         public List<SelectListItem> GetCompaniesToDDL()
         {
             var company = new Company();
             var ListOfCompanies = Converters.ConvertDataTable<Company>(_repositoryManager.Company.GetAllCompanies(company).Tables[0]);
             var ListOfCompaniesToView = new SelectList(ListOfCompanies, "Id", "Name").ToList();
-            ListOfCompaniesToView.Insert(0, new SelectListItem { Text = "Все" });
 
             return ListOfCompaniesToView;
         }
