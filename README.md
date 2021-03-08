@@ -26,10 +26,19 @@
   * Таблица с отображением всех работников<br>
   * Фильтр<br>
   * Сортировка<br>
-  * Кнопка "Создание работника" 
+  * Кнопка "Создание работника"
+
+# BLL, DAL, Presentation levels (From 08.03.2021)
+
+Проект был поделен на 3 уровня:<br>
+  * Data Access Level
+  * Buisness Logic Level
+  * Presentation Level
 
 # Developer
 
 KOTKenny
 
 [VK](https://vk.com/kotkenny)
+
+Время написания: 18 часов
