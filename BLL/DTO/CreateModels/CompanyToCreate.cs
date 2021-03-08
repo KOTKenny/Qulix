@@ -10,7 +10,8 @@ namespace BLL.DTO.CreateModels
     public class CompanyToCreate
     {
         [Display(Name = "Наименование")]
-        [Required]
+        [Required(ErrorMessage = "Вы не ввели наименование")]
+        [StringLength(400, ErrorMessage = "Наименование может иметь длинну максимум 400 символов")]
         public String Name { get; set; }
 
         [Display(Name = "Организационно - правовая форма")]

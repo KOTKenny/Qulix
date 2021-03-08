@@ -76,6 +76,8 @@
     <Compile Include="Extensions\Converters.cs" />
     <Compile Include="Helpers\EmployeeHelper.cs" />
     <Compile Include="Extensions\Mapper.cs" />
+    <Compile Include="Interfaces\IEmployeeTypeService.cs" />
+    <Compile Include="Interfaces\ICompanyTypeService.cs" />
     <Compile Include="Interfaces\IEmployeeService.cs" />
     <Compile Include="Interfaces\ICompanyService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

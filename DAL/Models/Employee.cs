@@ -52,6 +52,10 @@ namespace DAL.Models
 
         [DataSet]
         [DataGet]
+        public DateTime? AssignedDate { get; set; }
+
+        [DataSet]
+        [DataGet]
         public DateTime CreateDate { get; set; }
 
     }

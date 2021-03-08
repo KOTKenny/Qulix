@@ -42,6 +42,11 @@
                         </div>
 
                         <div class="form-group">
+                            @Html.LabelFor(model => model.AssignedDate)
+                            @Html.EditorFor(model => model.AssignedDate, new { htmlAttributes = new { @class = "form-control", id = "assignedDate" } })
+                        </div>
+
+                        <div class="form-group">
                             @Html.DropDownListFor(model => model.TypeId, (IEnumerable<SelectListItem>)ViewBag.EmployeesTypes, new { @class = "form-control" })
                         </div>
 
@@ -64,3 +69,14 @@
         </div>
     </div>
 </section>
+
+@section Scripts{
+    <script>
+        $('#assignedDate').datepicker({
+            dateFormat: "yy-mm-dd",
+            minDate: new Date("01.01.2001"),
+            monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+            dayNamesMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+        });
+    </script>
+}

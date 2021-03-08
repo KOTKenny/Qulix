@@ -18,11 +18,13 @@ namespace QulixTest.Controllers
 
         private static IEmployeeService _employeeService;
         private static ICompanyService _companyService;
+        private static IEmployeeTypeService _employeeTypeService;
 
         public EmployeesController()
         {
             _employeeService = new EmployeeService();
             _companyService = new CompanyService();
+            _employeeTypeService = new EmployeeTypeService();
         }
 
         // GET: Companies
@@ -32,7 +34,7 @@ namespace QulixTest.Controllers
             var ListOfEmployeesToView = _employeeService.GetEmployees(search, Sorting_Order);
             ViewBag.Employees = ListOfEmployeesToView;
 
-            var ListOfEmployeesTypes = EmployeeTypeService.GetEmployeeTypesToSortDDL();
+            var ListOfEmployeesTypes = _employeeTypeService.GetEmployeeTypesToSortDDL();
             ViewBag.EmployeesTypes = ListOfEmployeesTypes;
 
             var ListOfCompaniesToView = _companyService.GetCompaniesToSortDDL();
@@ -52,7 +54,7 @@ namespace QulixTest.Controllers
 
         public ActionResult Create()
         {
-            var ListOfEmployeesTypes = EmployeeTypeService.GetEmployeeTypes();
+            var ListOfEmployeesTypes = _employeeTypeService.GetEmployeeTypes();
             ViewBag.EmployeesTypes = ListOfEmployeesTypes;
 
             var ListOfCompaniesToView = _companyService.GetCompaniesToDDL();
@@ -63,7 +65,7 @@ namespace QulixTest.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FirstName, SecondName, ThirdName, TypeId, CompanyId")] EmployeeToCreate employee)
+        public ActionResult Create([Bind(Include = "FirstName, SecondName, ThirdName, TypeId, CompanyId, AssignedDate")] EmployeeToCreate employee)
         {
             if (ModelState.IsValid)
             {
@@ -71,7 +73,7 @@ namespace QulixTest.Controllers
                 return RedirectToAction("Index");
             }
 
-            var ListOfEmployeesTypes = EmployeeTypeService.GetEmployeeTypes();
+            var ListOfEmployeesTypes = _employeeTypeService.GetEmployeeTypes();
             ViewBag.EmployeesTypes = ListOfEmployeesTypes;
 
             var ListOfCompaniesToView = _companyService.GetCompaniesToDDL();
@@ -94,7 +96,7 @@ namespace QulixTest.Controllers
                 return HttpNotFound();
             }
 
-            var ListOfEmployeesTypes = EmployeeTypeService.GetEmployeeTypes();
+            var ListOfEmployeesTypes = _employeeTypeService.GetEmployeeTypes();
             ViewBag.EmployeesTypes = ListOfEmployeesTypes;
 
             var ListOfCompaniesToView = _companyService.GetCompaniesToDDL();
@@ -105,7 +107,7 @@ namespace QulixTest.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id, FirstName, SecondName, ThirdName, TypeId, CompanyId")] EmployeeToEdit employee)
+        public ActionResult Edit([Bind(Include = "Id, FirstName, SecondName, ThirdName, TypeId, CompanyId, AssignedDate")] EmployeeToEdit employee)
         {
             if (ModelState.IsValid)
             {
@@ -113,7 +115,7 @@ namespace QulixTest.Controllers
                 return RedirectToAction("Index");
             }
 
-            var ListOfEmployeesTypes = EmployeeTypeService.GetEmployeeTypes();
+            var ListOfEmployeesTypes = _employeeTypeService.GetEmployeeTypes();
             ViewBag.EmployeesTypes = ListOfEmployeesTypes;
 
             var ListOfCompaniesToView = _companyService.GetCompaniesToDDL();
@@ -136,7 +138,7 @@ namespace QulixTest.Controllers
                 return HttpNotFound();
             }
 
-            var ListOfEmployeesTypes = EmployeeTypeService.GetEmployeeTypes();
+            var ListOfEmployeesTypes = _employeeTypeService.GetEmployeeTypes();
             ViewBag.EmployeesTypes = ListOfEmployeesTypes;
 
             var ListOfCompaniesToView = _companyService.GetCompaniesToDDL();

@@ -1,4 +1,5 @@
 ﻿using BLL.Extensions;
+using BLL.Interfaces;
 using DAL.Interfaces;
 using DAL.Models;
 using DAL.Repositories;
@@ -11,11 +12,11 @@ using System.Web.Mvc;
 
 namespace BLL.Services
 {
-    public class CompanyTypeService
+    public class CompanyTypeService : ICompanyTypeService
     {
         private static IRepositoryManager _repositoryManager = new RepositoryManager(new DataManager());
 
-        public static List<SelectListItem> GetCompanyTypes()
+        public List<SelectListItem> GetCompanyTypes()
         {
             var companyType = new CompanyType();
             var ListOfTypes = Converters.ConvertDataTable<CompanyType>(_repositoryManager.CompanyType.GetCompanyTypesByConditionWithSingleWhere(companyType, "Id", "ASC", null).Tables[0]);
@@ -25,7 +26,7 @@ namespace BLL.Services
             return ListOfCompaniesTypes;
         }
 
-        public static List<SelectListItem> GetCompanyTypesToSortDDL()
+        public List<SelectListItem> GetCompanyTypesToSortDDL()
         {
             var ListOfCompaniesTypes = GetCompanyTypes();
             ListOfCompaniesTypes.Insert(0, new SelectListItem { Text = "Все" });

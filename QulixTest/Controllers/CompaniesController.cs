@@ -14,10 +14,12 @@ namespace QulixTest.Controllers
     public class CompaniesController : Controller
     {
         private static ICompanyService _companyService;
+        private static ICompanyTypeService _companyTypeService;
 
         public CompaniesController()
         {
             _companyService = new CompanyService();
+            _companyTypeService = new CompanyTypeService();
         }
 
         // GET: Companies
@@ -25,7 +27,7 @@ namespace QulixTest.Controllers
         {
             var ListOfCompaniesToView = _companyService.GetCompanies(search, Sorting_Order);
 
-            var ListOfCompaniesTypes = CompanyTypeService.GetCompanyTypesToSortDDL();
+            var ListOfCompaniesTypes = _companyTypeService.GetCompanyTypesToSortDDL();
 
             ViewBag.CompaniesTypes = ListOfCompaniesTypes;
             ViewBag.Companies = ListOfCompaniesToView;
@@ -36,7 +38,7 @@ namespace QulixTest.Controllers
 
         public ActionResult Create()
         {
-            var ListOfCompaniesTypes = CompanyTypeService.GetCompanyTypes();
+            var ListOfCompaniesTypes = _companyTypeService.GetCompanyTypes();
             ViewBag.CompaniesTypes = ListOfCompaniesTypes;
 
             return View();
@@ -52,7 +54,7 @@ namespace QulixTest.Controllers
                 return RedirectToAction("Index");
             }
 
-            var ListOfCompaniesTypes = CompanyTypeService.GetCompanyTypes();
+            var ListOfCompaniesTypes = _companyTypeService.GetCompanyTypes();
 
             ViewBag.CompaniesTypes = ListOfCompaniesTypes;
 
@@ -73,7 +75,7 @@ namespace QulixTest.Controllers
                 return HttpNotFound();
             }
 
-            var ListOfCompaniesTypes = CompanyTypeService.GetCompanyTypes();
+            var ListOfCompaniesTypes = _companyTypeService.GetCompanyTypes();
             ViewBag.CompaniesTypes = ListOfCompaniesTypes;
 
             return View(company);
@@ -89,7 +91,7 @@ namespace QulixTest.Controllers
                 return RedirectToAction("Index");
             }
 
-            var ListOfCompaniesTypes = CompanyTypeService.GetCompanyTypes();
+            var ListOfCompaniesTypes = _companyTypeService.GetCompanyTypes();
             ViewBag.CompaniesTypes = ListOfCompaniesTypes;
 
             return View(company);
@@ -109,7 +111,7 @@ namespace QulixTest.Controllers
                 return HttpNotFound();
             }
 
-            var ListOfCompaniesTypes = CompanyTypeService.GetCompanyTypes();
+            var ListOfCompaniesTypes = _companyTypeService.GetCompanyTypes();
             ViewBag.CompaniesTypes = ListOfCompaniesTypes;
 
             return View(company);

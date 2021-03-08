@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -19,6 +20,6 @@ namespace BLL.DTO.ViewModels
 
         public string EmployeeCompanyName { get; set; }
 
-        public DateTime CreateDate { get; set; }
+        public DateTime? AssignedDate { get; set; }
     }
 }

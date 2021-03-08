@@ -12,8 +12,8 @@ namespace BLL.DTO.EditModels
         [Required]
         public Int32 Id { get; set; }
 
-        [Display(Name = "Наименование")]
-        [Required]
+        [Required(ErrorMessage = "Вы не ввели наименование")]
+        [StringLength(400, ErrorMessage = "Наименование может иметь длинну максимум 400 символов")]
         public String Name { get; set; }
 
         [Display(Name = "Организационно - правовая форма")]

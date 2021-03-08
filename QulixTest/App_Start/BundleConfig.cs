@@ -10,6 +10,12 @@ namespace QulixTest
         {
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/css/style.css"));
+
+            bundles.Add(new StyleBundle("~/Content/jquery-ui").Include(
+                      "~/css/jquery-ui.css"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/jquery-ui").Include(
+                      "~/Scripts/jquery-ui.js"));
         }
     }
 }
